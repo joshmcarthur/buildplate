@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 numpy-stl = "*"
 vtkplotlib = "*"
+flask = "*"
+python-dotenv = "*"
+
 
 [dev-packages]
 
