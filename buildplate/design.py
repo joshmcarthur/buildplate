@@ -1,7 +1,8 @@
+""" Helpers for working with 3D design files"""
 from stl.mesh import Mesh
 
-
 def dimensions(infile):
+    """Accepts a 3D mesh file as infile, and returns the x,y,z dimensions of the object in mm"""
     mesh = Mesh.from_file(infile)
     return [
         mesh.x.max() - mesh.x.min(),
@@ -9,8 +10,10 @@ def dimensions(infile):
         mesh.z.max() - mesh.z.min()
     ]
 
-def volume(infile):
-  mesh = Mesh.from_file(infile)
-  volume, _, _ = mesh.get_mass_properties()
 
-  return volume
+def volume(infile):
+    """Accepts a 3D mesh file as inline, and returns the volume of the object in cubic mm"""
+    mesh = Mesh.from_file(infile)
+    vol, _, _ = mesh.get_mass_properties()
+
+    return vol

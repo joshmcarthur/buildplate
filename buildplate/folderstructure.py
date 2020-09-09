@@ -1,12 +1,18 @@
+""" Manages the design library folder structure"""
 from shutil import copyfile
 from os import mkdir, path
 from glob import glob
-from buildplate.store import get_library_dir, bootstrap
+from library_dir import get_library_dir, bootstrap
 
-def list(root = get_library_dir()):
-  return glob(root.join("**/*.stl"), recursive=True)
+
+def list_all(root=get_library_dir()):
+    """ Lists all STL files within the directory identified by the argument 'root',
+        defaulting to the library directory
+    """
+    return glob(root.join("**/*.stl"), recursive=True)
 
 def provision(file):
+    """ Copies a file into the library directory structure"""
     if not path.exists(file):
         raise ValueError("#{file} does not exist")
 

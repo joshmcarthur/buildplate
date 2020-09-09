@@ -9,8 +9,11 @@ vtkplotlib = "*"
 flask = "*"
 python-dotenv = "*"
 
-
 [dev-packages]
+pylint = "*"
+
+[scripts]
+lint = "pylint ./**/*.py"
 
 [requires]
 python_version = "3.8"
