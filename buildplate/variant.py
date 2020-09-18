@@ -42,9 +42,10 @@ class VariantSchema(Schema):
     """ Represents a variant persisted into a portable format (e.g. JSON) """
     project = fields.Nested("ProjectSchema", exclude=[
                             "variants"], load_only=True)
+    description = fields.Str(allow_none=True)
     build_file_path = fields.Str(required=True)
-    preview_image_path = fields.Str()
-    slicer_profile_file_path = fields.Str()
+    preview_image_path = fields.Str(allow_none=True)
+    slicer_profile_file_path = fields.Str(allow_none=True)
 
     @post_load
     def make_variant(self, data, **_kwargs):  # pylint: disable=no-self-use
