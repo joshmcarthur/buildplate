@@ -6,17 +6,19 @@ Buildplate content via HTTP.
 import tempfile
 import os
 from flask import Flask, jsonify, request
-from buildplate.folderstructure import list_all, provision
-from buildplate.design import MESH_FILE_EXTENSIONS
+from buildplate.project import list_all, provision
+from buildplate.mesh import MESH_FILE_EXTENSIONS
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 256 * 1024 * 1024
+
 
 def filename_parts(filename):
     """
     Splits filename into its component parts
     """
     return filename.rsplit('.', 1)
+
 
 def validate_filename(filename):
     """
@@ -38,8 +40,7 @@ def validation_error(message):
 @app.route("/api/projects")
 def index():
     """ Lists all filepaths to STL files """
-    all_designs = list_all()
-    return jsonify(all_designs)
+    return jsonify([project.dumps() for project in list_all()])
 
 
 @app.route("/api/projects", methods=['POST'])
@@ -56,9 +57,10 @@ def create():
 
     filename, extension = filename_parts(file.filename)
 
-    _stream, destination = tempfile.mkstemp(prefix=filename, suffix = f".{extension.lower()}")
+    _stream, destination = tempfile.mkstemp(
+        prefix=filename, suffix=f".{extension.lower()}")
     file.save(destination)
-    provision(destination)
+    project = provision(destination)
     os.unlink(destination)
 
-    return {'success': True}, 201
+    return project.dumps(), 201
