@@ -1,5 +1,7 @@
 """ Defines and manages variant data models"""
 from marshmallow import Schema, fields, post_load
+import os.path
+import buildplate.thumbnail
 
 
 class Variant:  # pylint: disable=too-few-public-methods
@@ -24,6 +26,17 @@ class Variant:  # pylint: disable=too-few-public-methods
 
         return variant
     
+    def generate_preview_image(self):
+        build_file_name, _ext = os.path.splitext(
+            os.path.basename(self.build_file_path))
+        preview_file_name = f"{build_file_name}_preview.png"
+        expected_preview_path = self.project.images_dir().joinpath(preview_file_name)
+        buildplate.thumbnail.generate_thumbnail(
+            self.project.root.joinpath(self.build_file_path), expected_preview_path)
+        assert os.path.exists(expected_preview_path)
+
+        self.preview_image_path = expected_preview_path
+
 
 class VariantSchema(Schema):
     """ Represents a variant persisted into a portable format (e.g. JSON) """
