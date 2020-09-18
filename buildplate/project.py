@@ -23,8 +23,8 @@ class Project:
 
     def save(self, filename=MANIFEST_FILENAME):
         """ Convenience method to persist the project JSON to a manifest"""
-        with open(path.join(self.root, filename), "w") as fp:
-            return json.dump(self.dump(), fp=fp)
+        with open(path.join(self.root, filename), "w") as file:
+            return json.dump(self.dump(), fp=file)
 
     def dump(self):
         """ Convenience method to transform the project into it's Python object representation"""
@@ -32,9 +32,11 @@ class Project:
         return schema.dump(self)
 
     def images_dir(self):
+        """ The path to the images directory for this project """
         return pathlib.Path(self.root).joinpath("images")
 
     def files_dir(self):
+        """ The path to the files directory for this project """
         return pathlib.Path(self.root).joinpath("files")
 
     @staticmethod
@@ -42,8 +44,8 @@ class Project:
         """ Instantiates a project instance from a manifest file"""
         schema = ProjectSchema()
         project_dir = path.dirname(manifest_path)
-        with open(path.join(project_dir, filename), 'r') as f:
-            return schema.load(json.load(f))
+        with open(path.join(project_dir, filename), 'r') as file:
+            return schema.load(json.load(file))
 
     @staticmethod
     def from_dict(manifest, root=None):

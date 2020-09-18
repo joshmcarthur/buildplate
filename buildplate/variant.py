@@ -1,6 +1,6 @@
 """ Defines and manages variant data models"""
-from marshmallow import Schema, fields, post_load
 import os.path
+from marshmallow import Schema, fields, post_load
 import buildplate.thumbnail
 
 
@@ -25,8 +25,9 @@ class Variant:  # pylint: disable=too-few-public-methods
         variant.slicer_profile_file_path = data["slicer_profile_file_path"]
 
         return variant
-    
+
     def generate_preview_image(self):
+        """ Generates a preview image in PNG format from the build file """
         build_file_name, _ext = os.path.splitext(
             os.path.basename(self.build_file_path))
         preview_file_name = f"{build_file_name}_preview.png"
