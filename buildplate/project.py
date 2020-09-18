@@ -1,6 +1,7 @@
 """ Defines and manages project data models"""
 
 import json
+import pathlib
 from shutil import copyfile
 from os import path
 from glob import glob
@@ -28,6 +29,12 @@ class Project:
         """ Convenience method to transform the project into it's JSON representation"""
         schema = ProjectSchema()
         return schema.dump(self)
+    
+    def images_dir(self):
+        return pathlib.Path(self.root).joinpath("images")
+
+    def files_dir(self):
+        return pathlib.Path(self.root).joinpath("files")
 
     @staticmethod
     def from_file(manifest_path, filename=MANIFEST_FILENAME):
@@ -74,19 +81,20 @@ def provision(file):
 
     bootstrap()
 
-    filename, file_ext = path.splitext(path.basename(file))
-    container_path = path.join(get_projects_dir(), filename)
-    file_path = path.join(container_path, f'{filename}{file_ext}')
+    basename = path.basename(file)
+    filename, _extension = path.splitext(path.basename(file))
+    container_path = pathlib.Path(get_projects_dir()).joinpath(filename)
 
-    path.join(container_path, "files").mkdir(parents=True, exist_ok=True)
-    path.join(container_path, "images").mkdir(parents=True, exist_ok=True)
-    copyfile(file, file_path)
-
-    initial_variant = Variant()
-    initial_variant.build_file_path = file_path
     project = Project()
     project.name = filename
     project.root = container_path
+    project.images_dir().mkdir(parents=True, exist_ok=True)
+    project.files_dir().mkdir(parents=True, exist_ok=True)
+    copyfile(file, project.files_dir().joinpath(basename))
+
+    initial_variant = Variant()
+    initial_variant.project = project
+    initial_variant.build_file_path = project.files_dir().joinpath(basename)
     project.variants = [initial_variant]
 
     project.save()

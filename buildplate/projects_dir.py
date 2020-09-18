@@ -5,15 +5,14 @@
 """
 
 import os
-from os.path import isdir, join
+import pathlib
 
 WINDOWS = os.sys.platform.startswith("win")
 
 
 def bootstrap():
     """ Create the project directory if it does not already exist"""
-    if not isdir(get_projects_dir()):
-        os.mkdir(get_projects_dir())
+    return get_projects_dir().mkdir(exist_ok=True)
 
 
 def expanduser(path):
@@ -29,7 +28,7 @@ def get_projects_dir():
     """
     Look up the default system 'Documents' folder, and append a 'Buildplate' directory onto the path
     """
-    docs_dir = join(expanduser("~"), "Documents")
+    docs_dir = pathlib.Path(expanduser("~")).joinpath("Documents")
     try:
         assert WINDOWS
         import ctypes.wintypes  # pylint: disable=import-outside-toplevel
@@ -39,4 +38,4 @@ def get_projects_dir():
         docs_dir = buf.value
     except:  # pylint: disable=bare-except
         pass
-    return join(docs_dir, "Buildplate")
+    return pathlib.Path(docs_dir).joinpath("Buildplate")
