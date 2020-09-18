@@ -6,6 +6,7 @@ class Variant:  # pylint: disable=too-few-public-methods
     """ Represents a variant of a project """
 
     def __init__(self):
+        self.project = None
         self.description = None
         self.build_file_path = None
         self.preview_image_path = None
@@ -15,6 +16,7 @@ class Variant:  # pylint: disable=too-few-public-methods
     def from_dict(data):
         """ Deserializes a dict into a Variant instance """
         variant = Variant()
+        variant.project = data.get("project")
         variant.description = data["description"]
         variant.build_file_path = data["build_file_path"]
         variant.preview_image_path = data["preview_image_path"]
@@ -23,7 +25,8 @@ class Variant:  # pylint: disable=too-few-public-methods
 
 class VariantSchema(Schema):
     """ Represents a variant persisted into a portable format (e.g. JSON) """
-    description = fields.Str()
+    project = fields.Nested("ProjectSchema", exclude=[
+                            "variants"], load_only=True)
     build_file_path = fields.Str(required=True)
     preview_image_path = fields.Str()
     slicer_profile_file_path = fields.Str()

@@ -30,7 +30,7 @@ class Project:
         """ Convenience method to transform the project into it's Python object representation"""
         schema = ProjectSchema()
         return schema.dump(self)
-    
+
     def images_dir(self):
         return pathlib.Path(self.root).joinpath("images")
 
@@ -58,7 +58,7 @@ class ProjectSchema(Schema):
     """ Represents the on-disk persisted format of a project"""
     name = fields.Str(required=True)
     root = fields.Str(required=True)
-    variants = fields.Nested(VariantSchema)
+    variants = fields.List(fields.Nested(VariantSchema))
 
     @post_load
     def make_project(self, data, **_kwargs):  # pylint: disable=no-self-use
