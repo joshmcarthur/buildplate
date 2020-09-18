@@ -8,6 +8,8 @@ numpy-stl = "*"
 vtkplotlib = "*"
 flask = "*"
 python-dotenv = "*"
+marshmallow = "*"
+marshmallow-jsonapi = "*"
 
 [dev-packages]
 pylint = "*"
