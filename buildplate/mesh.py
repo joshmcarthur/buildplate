@@ -3,6 +3,7 @@ from stl.mesh import Mesh
 
 MESH_FILE_EXTENSIONS = {'stl'}
 
+
 def dimensions(infile):
     """Accepts a 3D mesh file as infile, and returns the x,y,z dimensions of the object in mm"""
     mesh = Mesh.from_file(infile)
