@@ -26,8 +26,8 @@ class Project:
         with open(path.join(self.root, filename), "w") as fp:
             return json.dump(self.dump(), fp=fp)
 
-    def dumps(self):
-        """ Convenience method to transform the project into it's JSON representation"""
+    def dump(self):
+        """ Convenience method to transform the project into it's Python object representation"""
         schema = ProjectSchema()
         return schema.dump(self)
     

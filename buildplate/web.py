@@ -40,7 +40,7 @@ def validation_error(message):
 @app.route("/api/projects")
 def index():
     """ Lists all filepaths to STL files """
-    return jsonify([project.dumps() for project in list_all()])
+    return jsonify([project.dump() for project in list_all()])
 
 
 @app.route("/api/projects", methods=['POST'])
@@ -63,4 +63,4 @@ def create():
     project = provision(destination)
     os.unlink(destination)
 
-    return project.dumps(), 201
+    return project.dump(), 201
