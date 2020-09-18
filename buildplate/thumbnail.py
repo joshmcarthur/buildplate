@@ -3,6 +3,7 @@
 import vtkplotlib as vpl
 from stl.mesh import Mesh
 
+
 def generate_thumbnail(infile, outfile, size=None):
     """Generate a thumbnail or previewfile into 'outfile' using the design file in 'infile'"""
     mesh = Mesh.from_file(infile)
