@@ -74,7 +74,7 @@ def list_all(root=get_projects_dir()):
     """
     return [
         Project.from_file(manifest_file)
-        for manifest_file in glob(path.join(root, "**", "*.stl"), recursive=True)
+        for manifest_file in glob(path.join(root, "**", "manifest.json"), recursive=True)
     ]
 
 
