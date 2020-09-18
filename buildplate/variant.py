@@ -22,6 +22,8 @@ class Variant:  # pylint: disable=too-few-public-methods
         variant.preview_image_path = data["preview_image_path"]
         variant.slicer_profile_file_path = data["slicer_profile_file_path"]
 
+        return variant
+    
 
 class VariantSchema(Schema):
     """ Represents a variant persisted into a portable format (e.g. JSON) """

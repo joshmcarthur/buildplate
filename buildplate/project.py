@@ -53,6 +53,8 @@ class Project:
         project.root = root or manifest["root"]
         project.variants = manifest["variants"]
 
+        return project
+
 
 class ProjectSchema(Schema):
     """ Represents the on-disk persisted format of a project"""
