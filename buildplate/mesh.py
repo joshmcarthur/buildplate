@@ -8,9 +8,9 @@ def dimensions(infile):
     """Accepts a 3D mesh file as infile, and returns the x,y,z dimensions of the object in mm"""
     mesh = Mesh.from_file(infile)
     return [
-        mesh.x.max() - mesh.x.min(),
-        mesh.y.max() - mesh.y.min(),
-        mesh.z.max() - mesh.z.min()
+        float(mesh.x.max()) - float(mesh.x.min()),
+        float(mesh.y.max()) - float(mesh.y.min()),
+        float(mesh.z.max()) - float(mesh.z.min())
     ]
 
 
@@ -19,4 +19,4 @@ def volume(infile):
     mesh = Mesh.from_file(infile)
     vol, _, _ = mesh.get_mass_properties()
 
-    return vol
+    return float(vol)
