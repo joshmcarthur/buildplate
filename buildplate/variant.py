@@ -27,6 +27,7 @@ class Variant:  # pylint: disable=too-few-public-methods
         variant.project = data.get("project")
         variant.description = data["description"]
         variant.build_file_path = data["build_file_path"]
+        variant.metadata = data.get("metadata") or {}
         variant.preview_image_paths = data["preview_image_paths"]
         variant.slicer_profile_file_path = data["slicer_profile_file_path"]
 
