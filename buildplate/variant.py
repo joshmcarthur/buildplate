@@ -17,6 +17,7 @@ class Variant:  # pylint: disable=too-few-public-methods
         self.description = None
         self.build_file_path = None
         self.preview_image_paths = []
+        self.metadata = {}
         self.slicer_profile_file_path = None
 
     @staticmethod
@@ -30,7 +31,15 @@ class Variant:  # pylint: disable=too-few-public-methods
         variant.slicer_profile_file_path = data["slicer_profile_file_path"]
 
         return variant
+    
+    def derive_metadata(self):
+        abs_build_file_path = self.project.root_dir().joinpath(self.build_file_path)
+        metadata = {
+            'size': buildplate.mesh.dimensions(abs_build_file_path),
+            'volume': buildplate.mesh.volume(abs_build_file_path)
+        }
 
+        self.metadata = metadata
 
     def attach_image(self, path, type=type, dimensions=[None]):
         return self.preview_image_paths.append({
@@ -64,6 +73,7 @@ class VariantSchema(Schema):
     description = fields.Str(allow_none=True)
     build_file_path = fields.Str(required=True)
     preview_image_paths = fields.List(fields.Nested(VariantImageSchema))
+    metadata = fields.Dict()
     slicer_profile_file_path = fields.Str(allow_none=True)
 
     @post_load

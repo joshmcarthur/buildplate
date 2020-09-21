@@ -115,6 +115,7 @@ def provision(file):
     initial_variant.project = project
     initial_variant.build_file_path = project.files_dir().joinpath(basename)
     initial_variant.generate_preview_image()
+    initial_variant.derive_metadata()
     project.variants = [initial_variant]
 
     project.save()
