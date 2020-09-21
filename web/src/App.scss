@@ -8,9 +8,14 @@ $primary-color: #3661b3;
 .dark-mode {
   .card {
     @extend .grey, .darken-4;
+    @extend .grey-text, .text-lighten-5;
   }
   
   .card-title {
     @extend .grey-text, .text-lighten-5
+  }
+
+  .card-reveal {
+    @extend .grey, .darken-4;
   }
 }
