@@ -1,0 +1,16 @@
+$primary-color: #3661b3;
+@import "~materialize-css";
+
+.card-title {
+  word-break: break-word;
+}
+
+.dark-mode {
+  .card {
+    @extend .grey, .darken-4;
+  }
+  
+  .card-title {
+    @extend .grey-text, .text-lighten-5
+  }
+}
