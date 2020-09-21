@@ -5,6 +5,7 @@ Buildplate content via HTTP.
 
 import tempfile
 import os
+from flask import Flask, jsonify, request, send_file
 import buildplate.project as projects
 from buildplate.mesh import MESH_FILE_EXTENSIONS
 
@@ -41,7 +42,16 @@ def index():
     """ Lists all filepaths to STL files """
     return jsonify([project.dump() for project in projects.list_all()])
 
+@app.route("/api/projects/<id>")
+def show(id):
+    return projects.find_by_id(id).dump()
 
+@app.route("/api/projects/<id>/<path:filename>")
+def serve_file(id, filename):
+    project = projects.find_by_id(id)
+    filename = os.path.normpath(filename)
+
+    return send_file(project.root_dir().joinpath(filename))
 
 @app.route("/api/projects", methods=['POST'])
 def create():
