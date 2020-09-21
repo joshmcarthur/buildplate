@@ -6,11 +6,13 @@ import "materialize-css";
 
 function App() {
   const [projects, setProjects] = useState([]);
-  useEffect(() =>
-    fetch("/api/projects")
-      .then((r) => r.json())
-      .then(setProjects) && undefined
-  , []);
+  useEffect(
+    () =>
+      fetch("/api/projects")
+        .then((r) => r.json())
+        .then(setProjects) && undefined,
+    []
+  );
 
   return (
     <div className="App">
