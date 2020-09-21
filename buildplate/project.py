@@ -26,18 +26,23 @@ class Project:
         with open(path.join(self.root, filename), "w") as file:
             return json.dump(self.dump(), fp=file)
 
+    def root_dir(self):
+        return pathlib.Path(self.root)
+
     def dump(self):
         """ Convenience method to transform the project into it's Python object representation"""
         schema = ProjectSchema()
         return schema.dump(self)
 
-    def images_dir(self):
+    def images_dir(self, absolute=False):
         """ The path to the images directory for this project """
-        return pathlib.Path(self.root).joinpath("images")
+        images_dir = pathlib.Path("images")
+        return images_dir if not absolute else self.root_dir().joinpath(images_dir)
 
-    def files_dir(self):
+    def files_dir(self, absolute=False):
         """ The path to the files directory for this project """
-        return pathlib.Path(self.root).joinpath("files")
+        files_dir = pathlib.Path("files")
+        return files_dir if not absolute else self.root_dir().joinpath(files_dir)
 
     @staticmethod
     def from_file(manifest_path, filename=MANIFEST_FILENAME):
