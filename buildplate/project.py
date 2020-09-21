@@ -27,6 +27,7 @@ class Project:
             return json.dump(self.dump(), fp=file)
 
     def root_dir(self):
+        """ Return a Path object of the root """
         return pathlib.Path(self.root)
 
     def dump(self):
@@ -84,11 +85,11 @@ def list_all(root=get_projects_dir()):
         for manifest_file in glob(path.join(root, "**", "manifest.json"), recursive=True)
     ]
 
-def find_by_id(id, root=get_projects_dir()):
+def find_by_id(project_id, root=get_projects_dir()):
     """ Finds a project based on it's directory name """
-    manifest_file = root.joinpath(id, "manifest.json")
+    manifest_file = root.joinpath(project_id, "manifest.json")
     if not manifest_file.exists:
-        raise(f"Project {id} does not exist")
+        raise f"Project {project_id} does not exist"
 
     return Project.from_file(manifest_file)
 

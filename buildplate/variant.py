@@ -4,7 +4,7 @@ from marshmallow import Schema, fields, post_load
 import buildplate.thumbnail
 
 VariantImageSchema = Schema.from_dict({
-    'type': fields.Str(), 
+    'type': fields.Str(),
     'dimensions': fields.List(fields.Int()),
     'path': fields.Str()
 })
@@ -32,8 +32,11 @@ class Variant:  # pylint: disable=too-few-public-methods
         variant.slicer_profile_file_path = data["slicer_profile_file_path"]
 
         return variant
-    
+
     def derive_metadata(self):
+        """
+        Derives metadata for the variant. At the moment this is dimensions, but could be extended
+        """
         abs_build_file_path = self.project.root_dir().joinpath(self.build_file_path)
         metadata = {
             'size': buildplate.mesh.dimensions(abs_build_file_path),
@@ -42,10 +45,13 @@ class Variant:  # pylint: disable=too-few-public-methods
 
         self.metadata = metadata
 
-    def attach_image(self, path, type=type, dimensions=[None]):
+    def attach_image(self, path, type_name=None, dimensions=None):
+        """
+        Shortcut to put together the correct JSON structure for a variant image attachment
+        """
         return self.preview_image_paths.append({
-            'type': type,
-            'dimensions': dimensions,
+            'type': type_name,
+            'dimensions': dimensions or [],
             'path': path
         })
 
@@ -62,7 +68,7 @@ class Variant:  # pylint: disable=too-few-public-methods
 
         self.attach_image(
             self.project.images_dir().joinpath(preview_file_name),
-            type='card_preview_image',
+            type_name='card_preview_image',
             dimensions=size
         )
 

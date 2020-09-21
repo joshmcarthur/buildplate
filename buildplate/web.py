@@ -42,13 +42,15 @@ def index():
     """ Lists all filepaths to STL files """
     return jsonify([project.dump() for project in projects.list_all()])
 
-@app.route("/api/projects/<id>")
-def show(id):
-    return projects.find_by_id(id).dump()
+@app.route("/api/projects/<project_id>")
+def show(project_id):
+    """ Returns the JSON representation of a project identified by <project_id> """
+    return projects.find_by_id(project_id).dump()
 
-@app.route("/api/projects/<id>/<path:filename>")
-def serve_file(id, filename):
-    project = projects.find_by_id(id)
+@app.route("/api/projects/<project_id>/<path:filename>")
+def serve_file(project_id, filename):
+    """ Serves a file that is expected to be under the root of the project directory """
+    project = projects.find_by_id(project_id)
     filename = os.path.normpath(filename)
 
     return send_file(project.root_dir().joinpath(filename))
