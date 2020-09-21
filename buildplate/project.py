@@ -99,9 +99,9 @@ def provision(file):
     project = Project()
     project.name = filename
     project.root = container_path
-    project.images_dir().mkdir(parents=True, exist_ok=True)
-    project.files_dir().mkdir(parents=True, exist_ok=True)
-    copyfile(file, project.files_dir().joinpath(basename))
+    project.images_dir(absolute=True).mkdir(parents=True, exist_ok=True)
+    project.files_dir(absolute=True).mkdir(parents=True, exist_ok=True)
+    copyfile(file, project.files_dir(absolute=True).joinpath(basename))
 
     initial_variant = Variant()
     initial_variant.project = project
