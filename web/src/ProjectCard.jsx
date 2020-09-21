@@ -16,6 +16,22 @@ const thumbnailUrl = (project) => {
   }
 };
 
+const VariantMetadata = ({variant}) => (
+  <dl>
+    <dt>Width (mm)</dt>
+    <dd>{variant.metadata.size && Math.round(variant.metadata.size[0])}</dd>
+
+    <dt>Height (mm)</dt>
+    <dd>{variant.metadata.size && Math.round(variant.metadata.size[1])}</dd>
+
+    <dt>Depth (mm)</dt>
+    <dd>{variant.metadata.size && Math.round(variant.metadata.size[2])}</dd>
+
+    <dt>Volume (mm^3)</dt>
+    <dd>{variant.metadata.volume && Math.round(variant.metadata.volume)}</dd>
+  </dl>
+);
+
 export default ({ project }) => (
   <div className="card medium">
     <div className="card-image waves-effect waves-block waves-light">
@@ -26,20 +42,22 @@ export default ({ project }) => (
       />
     </div>
     <div className="card-content">
-      <span className="card-title activator grey-text text-darken-4">
+      <span className="card-title activator">
         {project.name}
         <i className="material-icons right">more_vert</i>
       </span>
-      <p>
-        <a href="#">View</a>
-      </p>
+    </div>
+    <div class="card-action">
+      <a href="#">View</a>
     </div>
     <div className="card-reveal">
-      <span className="card-title grey-text text-darken-4">
+      <span className="card-title">
         {project.name}
         <i className="material-icons right">close</i>
       </span>
-      <p>Here is some more information about this product that is only revealed once clicked on.</p>
+      <p>
+        <VariantMetadata variant={project.variants[project.variants.length - 1]} />
+      </p>
     </div>
   </div>
 );
