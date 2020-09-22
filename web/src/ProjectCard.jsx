@@ -55,9 +55,7 @@ export default ({ project }) => (
         {project.name}
         <i className="material-icons right">close</i>
       </span>
-      <p>
-        <VariantMetadata variant={project.variants[project.variants.length - 1]} />
-      </p>
+      <VariantMetadata variant={project.variants[project.variants.length - 1]} />
     </div>
   </div>
 );
