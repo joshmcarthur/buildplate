@@ -7,10 +7,10 @@ const thumbnailUrl = (project) => {
   const card_image = project.variants[0].preview_image_paths.find((pi) => pi.type === "card_image");
 
   if (card_image) {
-    return `/api/projects/${project.name}/${card_image.path}`
+    return `/api/projects/${project.id}/${card_image.path}`
   } else 
   if (variant.preview_image_paths[0]) {
-    return `/api/projects/${project.name}/${variant.preview_image_paths[0].path}`;
+    return `/api/projects/${project.id}/${variant.preview_image_paths[0].path}`;
   } else {
     return defaultThumbnail;
   }
