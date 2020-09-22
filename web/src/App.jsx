@@ -7,13 +7,12 @@ import "materialize-css";
 
 function App() {
   const [projects, setProjects] = useState([]);
-  useEffect(
-    () =>
-      fetch("/api/projects")
-        .then((r) => r.json())
-        .then(setProjects) && undefined,
-    []
-  );
+  const fetchProjects = () =>
+    fetch("/api/projects")
+      .then((r) => r.json())
+      .then(setProjects);
+
+  useEffect(() => fetchProjects() && undefined, []);
 
   return (
     <div className="App">
@@ -26,7 +25,7 @@ function App() {
         ))}
       </div>
 
-      <ProjectCreate />
+      <ProjectCreate onCreate={fetchProjects} />
     </div>
   );
 }

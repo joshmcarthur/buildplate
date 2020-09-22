@@ -1,6 +1,7 @@
 import React from "react";
+import M from "materialize-css";
 
-export default () => {
+export default ({onCreate}) => {
   const [progress, setProgress] = React.useState(0);
   const [isUploading, setIsUploading] = React.useState(false);
 
@@ -16,11 +17,12 @@ export default () => {
         formData.set("mesh", file);
         const response = await fetch("/api/projects", { method: "POST", body: formData });
         setProgress(files.indexOf(file) + 1 / fileCount * 100)
+        M.toast({html: `Project was created for ${file.name}`});
         return await response.json();
       })
     ).then(() => {
       setIsUploading(false);
-      window.location.reload();
+      onCreate && onCreate();
     });
   };
 
