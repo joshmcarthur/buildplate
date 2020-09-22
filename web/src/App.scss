@@ -10,12 +10,40 @@ $primary-color: #3661b3;
     @extend .grey, .darken-4;
     @extend .grey-text, .text-lighten-5;
   }
-  
+
   .card-title {
-    @extend .grey-text, .text-lighten-5
+    @extend .grey-text, .text-lighten-5;
   }
 
   .card-reveal {
     @extend .grey, .darken-4;
   }
+}
+
+.offscreen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.spin {
+  animation: spin 1.67s infinite linear;
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
 }

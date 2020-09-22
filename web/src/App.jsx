@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import Navbar from "./Navbar";
 import ProjectCard from "./ProjectCard";
+import ProjectCreate from "./ProjectCreate";
 import "materialize-css";
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
           </div>
         ))}
       </div>
+
+      <ProjectCreate />
     </div>
   );
 }
