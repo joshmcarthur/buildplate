@@ -8,6 +8,7 @@ from glob import glob
 from marshmallow import Schema, fields, post_load
 from buildplate.projects_dir import get_projects_dir, bootstrap
 from buildplate.variant import Variant, VariantSchema
+from buildplate.utils import sha1
 
 MANIFEST_FILENAME = "manifest.json"
 
@@ -17,6 +18,7 @@ class Project:
 
     def __init__(self):
         """ Define the attributes of the model """
+        self.id = None
         self.name = None
         self.root = None
         self.variants = []
@@ -57,6 +59,7 @@ class Project:
     def from_dict(manifest, root=None):
         """ Instantiates a project from deserialized manifest dictionary"""
         project = Project()
+        project.id = manifest["id"]
         project.name = manifest["name"]
         project.root = root or manifest["root"]
         project.variants = manifest["variants"]
@@ -66,6 +69,7 @@ class Project:
 
 class ProjectSchema(Schema):
     """ Represents the on-disk persisted format of a project"""
+    id = fields.Str(required=True)
     name = fields.Str(required=True)
     root = fields.Str(required=True)
     variants = fields.List(fields.Nested(VariantSchema))
@@ -101,11 +105,16 @@ def provision(file):
 
     bootstrap()
 
+    project_id = sha1(file)
     basename = path.basename(file)
     filename, _extension = path.splitext(path.basename(file))
-    container_path = pathlib.Path(get_projects_dir()).joinpath(filename)
+    container_path = pathlib.Path(get_projects_dir()).joinpath(project_id)
+
+    if path.exists(container_path):
+        raise ValueError(f"{file} already has a project (ID: {project_id})")
 
     project = Project()
+    project.id = project_id
     project.name = filename
     project.root = container_path
     project.images_dir(absolute=True).mkdir(parents=True, exist_ok=True)
