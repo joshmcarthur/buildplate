@@ -18,7 +18,7 @@ class Project:
 
     def __init__(self):
         """ Define the attributes of the model """
-        self.id = None
+        self.id = None # pylint: disable=invalid-name
         self.name = None
         self.root = None
         self.variants = []
